@@ -47,7 +47,8 @@ button.cell{cursor:pointer}
 .st{font-size:13px;color:var(--sub);min-height:16px}
 .tk,.pp{padding:14px 16px;border-bottom:1px solid var(--line)}
 .tk b{font-size:15px}.tk small,.pp small{color:var(--sub);font-size:12px;margin-left:8px}
-.row2{display:flex;gap:12px;padding:12px 14px;align-items:flex-start}
+.it{border-bottom:1px solid var(--line)}
+.row2{display:flex;gap:12px;padding:20px 16px;align-items:flex-start}
 .th{position:relative;flex:0 0 38%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
 .th video,.th img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
 .th .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px}
@@ -60,7 +61,7 @@ button.cell{cursor:pointer}
 .tt{font-size:15px;line-height:1.45;font-weight:400;word-break:break-word;white-space:pre-wrap}
 .tt.cl{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .mt{margin-top:6px;font-size:13px;color:var(--sub)}
-.ex{padding:0 14px 12px}
+.ex{padding:0 16px 20px}
 .ex video,.ex img{width:100%;display:block;border-radius:14px;background:#000;max-height:70vh;object-fit:contain}
 .ex audio{width:100%}
 .ex iframe{width:100%;border:0;border-radius:14px;display:block}
@@ -217,13 +218,16 @@ let dirty=new Set(),wasAdmin=false;
 function toast(m){const d=el('div','toast',m);document.body.appendChild(d);setTimeout(()=>d.remove(),2500)}
 document.addEventListener('focusout',()=>setTimeout(()=>{if(dirty.size){const f=[...dirty];dirty.clear();f.forEach(x=>x())}},150));
 
-/* tabs: each icon shows its content under the profile */
+/* tabs: the tweet is shown by default; the other icons swap the content under the profile */
 const panels={tweet:$('panel1'),rtt:$('panel2'),letters:$('panel3')},tabBtn={tweet:$('open1'),rtt:$('open2'),letters:$('open3')};
-function route(){const v=location.hash.slice(1);
+function cur(){const v=location.hash.slice(1);return panels[v]?v:'tweet'}
+function route(){const v=cur();
  for(const k in panels){const on=k===v;panels[k].classList.toggle('on',on);tabBtn[k].classList.toggle('on',on);tabBtn[k].setAttribute('aria-selected',on?'true':'false')}}
-function pick(h){const cur=location.hash.slice(1),nx=cur===h?'':h;
- try{history.replaceState(null,'',nx?'#'+nx:location.pathname+location.search)}catch(e){location.hash=nx}
- route()}
+function pick(h){
+ try{history.replaceState(null,'',h==='tweet'?location.pathname+location.search:'#'+h)}catch(e){location.hash=h==='tweet'?'':h}
+ route();
+ const r=$('panels').getBoundingClientRect().top,th=$('open1').parentElement.offsetHeight;
+ if(r<th)window.scrollBy(0,r-th)}
 addEventListener('hashchange',route);route();
 $('open1').onclick=()=>pick('tweet');$('open2').onclick=()=>pick('rtt');$('open3').onclick=()=>pick('letters');
 
