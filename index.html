@@ -53,6 +53,7 @@ button.cell{cursor:pointer}
 .th video,.th img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
 .th .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px}
 .th.sq{aspect-ratio:1/1;flex:0 0 32%}
+.th.sq.sm{flex:0 0 16%;border-radius:10px}
 .th.sq img,.th.sq video{object-fit:cover}
 .th.wd{aspect-ratio:16/9}
 .th.wd video{object-fit:cover}
@@ -339,7 +340,7 @@ function renderTracks(){
   const toggle=slot=>{const f=document.createElement('iframe');f.className=t.kind==='sc'?'sc':t.kind==='sp'?(/^(track|episode)\//.test(t.ref)?'sp':'spl'):'yt';f.src=src;f.allowFullscreen=true;
    f.setAttribute('allow','autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen');f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');slot.appendChild(f)};
   const del=isAdmin?()=>deleteDoc(doc(db,'tracks',t.id)).catch(()=>alert('삭제하지 못했어요.')):null;
-  l.appendChild(mkItem({node,cls:'sq'},String(t.title||''),fmt(t.ts),toggle,del,true))})}
+  l.appendChild(mkItem({node,cls:'sq sm'},String(t.title||''),fmt(t.ts),toggle,del,true))})}
 
 /* Letters (text + optional photo) */
 $('phbtn').onclick=()=>$('phf').click();
