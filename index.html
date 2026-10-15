@@ -281,7 +281,7 @@ $('cok').onclick=()=>{const c=document.createElement('canvas');c.width=c.height=
  myAv=u;$('avi').src=u;try{localStorage.setItem('myav',u)}catch(e){}$('crop').classList.remove('on');cim=null};
 $('hb').onclick=()=>{if(!uid)return;const r=doc(db,'likes',uid);(likes[uid]?deleteDoc(r):setDoc(r,{ts:Date.now()})).catch(e=>alert('처리하지 못했어요.'))};
 const NTFY='saero-c1b1fdc6244f4def';
-function notify(n,t){if(isAdmin)return;try{fetch('https://ntfy.sh/'+NTFY,{method:'POST',mode:'no-cors',body:'💬 '+n+': '+t.slice(0,150)}).catch(()=>{})}catch(e){}}
+function notify(n,t){if(isAdmin)return;try{fetch('https://ntfy.sh/'+NTFY,{method:'POST',body:'💬 '+n+': '+t.slice(0,150)}).catch(()=>{})}catch(e){}}
 $('sb').onclick=()=>{
  const t=$('ti').value.trim(),n=$('ni').value.trim();
  if(!uid){alert('잠시 후 다시 시도해 주세요.');return}
