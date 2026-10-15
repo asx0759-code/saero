@@ -93,7 +93,10 @@ header h1{position:absolute;left:0;right:0;text-align:center;font-size:17px;marg
 .ab.on{color:var(--red)}.ab.on svg{fill:var(--red);stroke:var(--red)}
 .cf{display:none;padding:12px 16px;border-bottom:1px solid var(--line);flex-direction:column;gap:8px;background:var(--soft)}
 .cf.open{display:flex}
-.cf .r{display:flex;gap:8px}.cf .r input{flex:0 0 34%}
+.cf .r{display:flex;gap:6px;align-items:center}
+.cf .r #ni{flex:0 0 22%;min-width:0;padding-left:10px;padding-right:10px}
+.cf .r #ti{flex:1;min-width:0}
+.cf .r #sb{flex:none;white-space:nowrap;padding:9px 14px}
 textarea,input{width:100%;font-size:16px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);outline:none;font-family:inherit}
 textarea{resize:none}
 .btn{border:none;background:var(--acc);color:#fff;font-size:14px;font-weight:700;padding:9px 18px;border-radius:20px}
@@ -171,8 +174,7 @@ textarea{resize:none}
   </div>
  </div>
  <div class="cf" id="cf">
-  <div class="r"><input id="ni" placeholder="이름" maxlength="12"><input id="ti" placeholder="댓글을 남겨주세요" maxlength="300"></div>
-  <button class="btn sm" id="sb">보내기</button>
+  <div class="r"><input id="ni" placeholder="닉네임" maxlength="12"><input id="ti" placeholder="댓글을 남겨주세요" maxlength="300"><button class="btn" id="sb">보내기</button></div>
  </div>
  <div id="cl"></div>
 </div>
