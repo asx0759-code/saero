@@ -12,14 +12,17 @@
 :root{--bg:#fff;--text:#0f1419;--sub:#536471;--acc:#1d9bf0;--line:#eff3f4;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#000;--text:#e7e9ea;--sub:#71767b;--line:#2f3336;color-scheme:dark}}
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard JP","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
 main{max-width:420px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:24px;text-align:center}
 h1{font-size:20px;margin:0}
 p{margin:0;color:var(--sub);font-size:14px;line-height:1.5;min-height:21px}
 .btn{display:block;width:100%;border:none;border-radius:24px;background:var(--acc);color:#fff;font-size:16px;font-weight:700;padding:13px 16px;text-decoration:none;cursor:pointer}
 .btn.gh{background:var(--line);color:var(--text)}
 .btn:disabled{opacity:.5}
+button,input,textarea,select{font-family:inherit}
 </style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp-dynamic-subset.css">
 </head>
 <body>
 <main>
