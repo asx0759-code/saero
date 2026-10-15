@@ -13,7 +13,13 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--text:#e7e9ea;--sub:#71767b;--line:#2f3336;--soft:#16181c;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#000;--text:#e7e9ea;--sub:#71767b;--line:#2f3336;--soft:#16181c;color-scheme:dark}
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+@font-face{font-family:'SUITE';font-weight:400;font-display:swap;src:url('fonts/SUITE-Regular.woff2') format('woff2')}
+@font-face{font-family:'SUITE';font-weight:500;font-display:swap;src:url('fonts/SUITE-Medium.woff2') format('woff2')}
+@font-face{font-family:'SUITE';font-weight:600;font-display:swap;src:url('fonts/SUITE-SemiBold.woff2') format('woff2')}
+@font-face{font-family:'SUITE';font-weight:700;font-display:swap;src:url('fonts/SUITE-Bold.woff2') format('woff2')}
+@font-face{font-family:'SUITE';font-weight:800;font-display:swap;src:url('fonts/SUITE-ExtraBold.woff2') format('woff2')}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:"SUITE",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+button{font-family:inherit}
 #app{height:100%;max-width:480px;margin:0 auto;display:none;flex-direction:column}
 #main{max-width:480px;margin:0 auto;min-height:100%;background:var(--bg)}
 #main.off{display:none}
