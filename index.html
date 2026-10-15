@@ -280,13 +280,15 @@ $('cok').onclick=()=>{const c=document.createElement('canvas');c.width=c.height=
  const u=c.toDataURL('image/jpeg',0.8);if(!okAv(u)){alert('이 사진은 사용할 수 없어요.');return}
  myAv=u;$('avi').src=u;try{localStorage.setItem('myav',u)}catch(e){}$('crop').classList.remove('on');cim=null};
 $('hb').onclick=()=>{if(!uid)return;const r=doc(db,'likes',uid);(likes[uid]?deleteDoc(r):setDoc(r,{ts:Date.now()})).catch(e=>alert('처리하지 못했어요.'))};
+const NTFY='saero-c1b1fdc6244f4def';
+function notify(n,t){if(isAdmin)return;try{fetch('https://ntfy.sh/'+NTFY,{method:'POST',mode:'no-cors',body:'💬 '+n+': '+t.slice(0,150)}).catch(()=>{})}catch(e){}}
 $('sb').onclick=()=>{
  const t=$('ti').value.trim(),n=$('ni').value.trim();
  if(!uid){alert('잠시 후 다시 시도해 주세요.');return}
  if(!n){$('ni').focus();return}if(!t){$('ti').focus();return}
  nick=n;try{localStorage.setItem('nick',n)}catch(e){}
  const b=$('sb');b.disabled=true;
- addDoc(collection(db,'comments'),myAv?{nick:n,uid,text:t,ts:Date.now(),av:myAv}:{nick:n,uid,text:t,ts:Date.now()}).then(()=>{$('ti').value='';$('cf').classList.remove('open')}).catch(()=>alert('댓글을 남기지 못했어요.')).finally(()=>b.disabled=false)};
+ addDoc(collection(db,'comments'),myAv?{nick:n,uid,text:t,ts:Date.now(),av:myAv}:{nick:n,uid,text:t,ts:Date.now()}).then(()=>{notify(n,t);$('ti').value='';$('cf').classList.remove('open')}).catch(()=>alert('댓글을 남기지 못했어요.')).finally(()=>b.disabled=false)};
 function openReply(c,m,rp){
  if(c.querySelector('.rbox'))return;
  const b=el('div','rbox'),t=el('textarea');t.rows=2;t.maxLength=500;t.placeholder='답글 입력';t.value=rp?rp.text:'';
