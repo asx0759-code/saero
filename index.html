@@ -294,7 +294,7 @@ function mkItem(thumb,title,meta,toggle,del,clamp){
  const rt=el('div','rt');const rf=el('div','rf');rt.append(el('div','tt'+(clamp?' cl':''),title),rf);
  if(del){const d=el('button','link del','삭제');d.style.cssText='padding:0';
   d.onclick=e=>{e.stopPropagation();ask(d,del)};rf.appendChild(d)}
- rf.appendChild(el('div','mt',meta));
+ if(isAdmin)rf.appendChild(el('div','mt',meta));
  r.appendChild(rt);it.appendChild(r);
  if(toggle){r.style.cursor='pointer';let slot=null;r.onclick=()=>{if(slot){slot.remove();slot=null;return}slot=el('div','ex');toggle(slot);it.appendChild(slot)}}
  return it}
