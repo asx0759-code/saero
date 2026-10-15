@@ -229,7 +229,7 @@ function ask(b,fn){if(b.dataset.arm){clearTimeout(b._t);b.dataset.arm='';b.textC
 const DEFAULT_AV='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#dfe3e6"/><circle cx="50" cy="40" r="17" fill="#738390"/><path d="M18 100C18 76 32 64 50 64S82 76 82 100Z" fill="#738390"/></svg>');
 const okAv=v=>typeof v==='string'&&v.startsWith('data:image/jpeg;base64,')&&v.length<20000;
 function avatar(src){const d=document.createElement('img');d.className='av2';d.alt='';d.src=okAv(src)?src:DEFAULT_AV;return d}
-const CAT=document.querySelector('.av').outerHTML.replace('class="av"','');
+const CAT=document.querySelector('.av').outerHTML.replace('class="av"','');let AVN='';
 const busy=c=>{const a=document.activeElement;return a&&c.contains(a)&&(a.tagName==='TEXTAREA'||a.tagName==='INPUT')};
 let dirty=new Set(),wasAdmin=false;
 function toast(m){const d=el('div','toast',m);document.body.appendChild(d);setTimeout(()=>d.remove(),2500)}
@@ -328,7 +328,7 @@ function renderDetail(){
   h.appendChild(avatar(m.av));
   const b=el('div','cb'),nn=el('div','n',n);nn.appendChild(el('small',null,fmt(m.ts)));b.append(nn,el('div','t',String(m.text||'')));h.appendChild(b);c.appendChild(h);
   const rp=replies[m.id];
-  if(rp){const r=el('div','rp');r.innerHTML=CAT;const rb=el('div','cb'),rn=el('div','n','前田 陸');rn.appendChild(el('small',null,'@horizontal · '+fmt(rp.ts)));rb.append(rn,el('div','t',String(rp.text||'')));r.appendChild(rb);c.appendChild(r)}
+  if(rp){const r=el('div','rp');r.innerHTML=CAT;if(AVN){const im=r.querySelector('img');if(im)im.src=AVN}const rb=el('div','cb'),rn=el('div','n','前田 陸');rn.appendChild(el('small',null,'@horizontal · '+fmt(rp.ts)));rb.append(rn,el('div','t',String(rp.text||'')));r.appendChild(rb);c.appendChild(r)}
   if(isAdmin){
    const row=el('div');row.style.marginLeft='46px';
    const b1=el('button','link',rp?'답글 수정':'답글 달기');b1.onclick=()=>openReply(c,m,rp);
@@ -424,7 +424,7 @@ function renderLetters(){
 const err=e=>console.error(e);
 onSnapshot(query(collection(db,'comments'),orderBy('ts','desc'),limit(300)),s=>{comments=s.docs.map(d=>({id:d.id,...d.data()}));renderDetail()},err);
 onSnapshot(collection(db,'replies'),s=>{const m={};s.docs.forEach(d=>m[d.id]=d.data());replies=m;renderDetail()},err);
-onSnapshot(doc(db,'settings','main'),d=>{const x=d.exists()?d.data():{};if(x.photo)$('mainphoto').src=x.photo;if(typeof x.avatar==='string'&&x.avatar.startsWith('data:image/'))document.querySelectorAll('.pav,.prof .av').forEach(e=>e.src=x.avatar)},err);
+onSnapshot(doc(db,'settings','main'),d=>{const x=d.exists()?d.data():{};if(x.photo)$('mainphoto').src=x.photo;if(typeof x.avatar==='string'&&x.avatar.startsWith('data:image/')){document.querySelectorAll('.pav,.prof .av').forEach(e=>e.src=x.avatar);AVN=x.avatar;renderDetail()}},err);
 onSnapshot(collection(db,'likes'),s=>{const m={};s.docs.forEach(d=>m[d.id]=1);likes=m;renderDetail()},err);
 onSnapshot(query(collection(db,'tracks'),orderBy('ts','desc'),limit(100)),s=>{tracks=s.docs.map(d=>({id:d.id,...d.data()}));renderTracks()},err);
 onSnapshot(query(collection(db,'letters'),orderBy('ts','desc'),limit(100)),s=>{letters=s.docs.map(d=>({id:d.id,...d.data()}));renderLetters()},err);
