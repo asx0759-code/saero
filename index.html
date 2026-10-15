@@ -57,7 +57,9 @@ button.cell{cursor:pointer}
 .th.wd{aspect-ratio:16/9}
 .th.wd video{object-fit:cover}
 .dur{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;padding:1px 6px;border-radius:6px}
-.rt{flex:1;min-width:0}
+.rt{flex:1;min-width:0;align-self:stretch;display:flex;flex-direction:column}
+.rf{margin-top:auto;padding-top:10px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.rf .mt{margin:0;margin-left:auto;text-align:right}
 .tt{font-size:15px;line-height:1.45;font-weight:400;word-break:break-word;white-space:pre-wrap}
 .tt.cl{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .mt{margin-top:6px;font-size:13px;color:var(--sub)}
@@ -286,9 +288,10 @@ function renderDetail(){
 function mkItem(thumb,title,meta,toggle,del,clamp){
  const it=el('div','it'),r=el('div','row2');
  if(thumb){const th=el('div','th'+(thumb.cls?' '+thumb.cls:''));th.appendChild(thumb.node);r.appendChild(th)}
- const rt=el('div','rt');rt.append(el('div','tt'+(clamp?' cl':''),title),el('div','mt',meta));
- if(del){const d=el('button','link del','삭제');d.style.cssText='padding:6px 0 0;display:block';
-  d.onclick=e=>{e.stopPropagation();ask(d,del)};rt.appendChild(d)}
+ const rt=el('div','rt');const rf=el('div','rf');rt.append(el('div','tt'+(clamp?' cl':''),title),rf);
+ if(del){const d=el('button','link del','삭제');d.style.cssText='padding:0';
+  d.onclick=e=>{e.stopPropagation();ask(d,del)};rf.appendChild(d)}
+ rf.appendChild(el('div','mt',meta));
  r.appendChild(rt);it.appendChild(r);
  if(toggle){r.style.cursor='pointer';let slot=null;r.onclick=()=>{if(slot){slot.remove();slot=null;return}slot=el('div','ex');toggle(slot);it.appendChild(slot)}}
  return it}
