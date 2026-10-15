@@ -328,7 +328,7 @@ function renderDetail(){
   h.appendChild(avatar(m.av));
   const b=el('div','cb'),nn=el('div','n',n);nn.appendChild(el('small',null,fmt(m.ts)));b.append(nn,el('div','t',String(m.text||'')));h.appendChild(b);c.appendChild(h);
   const rp=replies[m.id];
-  if(rp){const r=el('div','rp');r.innerHTML=CAT;if(AVN){const im=r.querySelector('img');if(im)im.src=AVN}const rb=el('div','cb'),rn=el('div','n','前田 陸');rn.appendChild(el('small',null,'@horizontal · '+fmt(rp.ts)));rb.append(rn,el('div','t',String(rp.text||'')));r.appendChild(rb);c.appendChild(r)}
+  if(rp){const r=el('div','rp');r.innerHTML=CAT;if(AVN){const im=r.querySelector('img');if(im){im.removeAttribute('srcset');im.src=AVN}}const rb=el('div','cb'),rn=el('div','n','前田 陸');rn.appendChild(el('small',null,'@horizontal · '+fmt(rp.ts)));rb.append(rn,el('div','t',String(rp.text||'')));r.appendChild(rb);c.appendChild(r)}
   if(isAdmin){
    const row=el('div');row.style.marginLeft='46px';
    const b1=el('button','link',rp?'답글 수정':'답글 달기');b1.onclick=()=>openReply(c,m,rp);
@@ -424,7 +424,7 @@ function renderLetters(){
 const err=e=>console.error(e);
 onSnapshot(query(collection(db,'comments'),orderBy('ts','desc'),limit(300)),s=>{comments=s.docs.map(d=>({id:d.id,...d.data()}));renderDetail()},err);
 onSnapshot(collection(db,'replies'),s=>{const m={};s.docs.forEach(d=>m[d.id]=d.data());replies=m;renderDetail()},err);
-onSnapshot(doc(db,'settings','main'),d=>{const x=d.exists()?d.data():{};if(x.photo)$('mainphoto').src=x.photo;if(typeof x.avatar==='string'&&x.avatar.startsWith('data:image/')){document.querySelectorAll('.pav,.prof .av').forEach(e=>e.src=x.avatar);AVN=x.avatar;renderDetail()}},err);
+onSnapshot(doc(db,'settings','main'),d=>{const x=d.exists()?d.data():{};if(x.photo)$('mainphoto').src=x.photo;if(typeof x.avatar==='string'&&x.avatar.startsWith('data:image/')){document.querySelectorAll('.pav,.prof .av').forEach(e=>e.src=x.avatar);AVN=x.avatar;renderDetail();document.querySelectorAll('.rp img').forEach(e=>e.src=x.avatar)}},err);
 onSnapshot(collection(db,'likes'),s=>{const m={};s.docs.forEach(d=>m[d.id]=1);likes=m;renderDetail()},err);
 onSnapshot(query(collection(db,'tracks'),orderBy('ts','desc'),limit(100)),s=>{tracks=s.docs.map(d=>({id:d.id,...d.data()}));renderTracks()},err);
 onSnapshot(query(collection(db,'letters'),orderBy('ts','desc'),limit(100)),s=>{letters=s.docs.map(d=>({id:d.id,...d.data()}));renderLetters()},err);
