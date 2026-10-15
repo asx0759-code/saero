@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>관리자</title>
+<style>
+:root{--bg:#fff;--text:#0f1419;--sub:#536471;--acc:#1d9bf0;--line:#eff3f4;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--text:#e7e9ea;--sub:#71767b;--line:#2f3336;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+main{max-width:420px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:24px;text-align:center}
+h1{font-size:20px;margin:0}
+p{margin:0;color:var(--sub);font-size:14px;line-height:1.5;min-height:21px}
+.btn{display:block;width:100%;border:none;border-radius:24px;background:var(--acc);color:#fff;font-size:16px;font-weight:700;padding:13px 16px;text-decoration:none;cursor:pointer}
+.btn.gh{background:var(--line);color:var(--text)}
+.btn:disabled{opacity:.5}
+</style>
+</head>
+<body>
+<main>
+ <h1>관리자</h1>
+ <p id="msg">확인하는 중...</p>
+ <button class="btn" id="in" style="display:none">Google로 로그인</button>
+ <a class="btn" id="go" href="./" style="display:none">페이지로 이동</a>
+ <button class="btn gh" id="out" style="display:none">로그아웃</button>
+</main>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {getAuth,onAuthStateChanged,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signOut} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+const CFG={apiKey:"AIzaSyCXsKG_6nPwCeeRCI36EI5l9gdL9wRaTpE",authDomain:"saerojinro.firebaseapp.com",projectId:"saerojinro",storageBucket:"saerojinro.firebasestorage.app",messagingSenderId:"607420482568",appId:"1:607420482568:web:ed646685f887893e5bfdbd"}, ADMIN='asx0759@gmail.com';
+const auth=getAuth(initializeApp(CFG));
+const $=i=>document.getElementById(i),show=(id,v)=>$(id).style.display=v?'block':'none';
+onAuthStateChanged(auth,async u=>{
+ const real=u&&!u.isAnonymous;
+ if(real&&u.email!==ADMIN){await signOut(auth);$('msg').textContent='관리자 계정이 아니에요. 다른 계정으로 로그인해 주세요.';show('in',1);show('go',0);show('out',0);return}
+ if(real){$('msg').textContent='관리자로 로그인되어 있어요.';show('in',0);show('go',1);show('out',1)}
+ else{if(!$('msg').textContent.startsWith('관리자 계정이'))$('msg').textContent='관리자 계정으로 로그인해 주세요.';show('in',1);show('go',0);show('out',0)}});
+$('in').onclick=async()=>{
+ const p=new GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});
+ try{await signInWithPopup(auth,p)}catch(e){
+  if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e.code)){signInWithRedirect(auth,p);return}
+  if(e.code!=='auth/popup-closed-by-user'&&e.code!=='auth/cancelled-popup-request')$('msg').textContent='로그인하지 못했어요: '+(e.code||e.message)}};
+$('out').onclick=async()=>{await signOut(auth);$('msg').textContent='로그아웃했어요.'};
+</script>
+</body>
+</html>
